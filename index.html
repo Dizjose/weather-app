@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather Dashboard</title>
+  <link rel="icon" type="image/x-icon" href="assets/iconos/nube.png">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="nav-item active" data-view="weather">
+      <i class="fas fa-cloud"></i>
+    </div>
+    <div class="sidebar-nav">
+      <div class="nav-item" data-view="home">
+        <i class="fas fa-map-marker-alt"></i>
+      </div>
+      <div class="nav-item" data-view="analytics">
+        <i class="fas fa-chart-line"></i>
+      </div>
+      <div class="nav-item" data-view="settings">
+        <i class="fas fa-cog"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <i class="fas fa-search"></i>
+      <input type="text" id="city-search" placeholder="Search for location...">
+    </div>
+
+    <!-- Weather View (Default) -->
+    <div class="view-container" id="weather-view">
+      <!-- Dashboard Grid -->
+      <div class="dashboard-grid">
+        <!-- Current Weather and Map -->
+        <div class="weather-card">
+          <div class="current-weather">
+            <div class="weather-location" id="location">Current Weather</div>
+            <div class="weather-temp">
+              <img id="weather-icon" class="weather-icon" alt="Weather icon">
+              <span id="current-temp">--°</span>
+            </div>
+            <div class="weather-desc" id="weather-desc">--</div>
+          </div>
+          <div class="map-container">
+            <div id="map"></div>
+          </div>
+        </div>
+
+        <!-- Popular Cities -->
+        <div class="popular-cities">
+          <div class="section-header">
+            <div class="section-title">Popular Cities</div>
+          </div>
+          <div class="city-list" id="city-list">
+            <!-- City items will be added here by JavaScript -->
+          </div>
+        </div>
+
+        <!-- Forecast -->
+        <div class="forecast">
+          <div class="section-header">
+            <div class="section-title">Forecast</div>
+          </div>
+
+          <!-- Daily Forecast -->
+          <div class="daily-forecast" id="daily-forecast">
+            <!-- Daily forecast items will be added here by JavaScript -->
+          </div>
+
+          <!-- Temperature Chart -->
+          <div class="temp-chart">
+            <canvas id="temp-chart"></canvas>
+          </div>
+
+          <!-- Hourly Forecast -->
+          <div class="hourly-forecast" id="hourly-forecast">
+            <!-- Hourly forecast items will be added here by JavaScript -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Home View -->
+    <div class="view-container" id="home-view" style="display: none;">
+      <div class="glass-card">
+        <h2>Home Dashboard</h2>
+        <p>Welcome to your weather dashboard. Here you can see an overview of your saved locations and recent weather
+          updates.</p>
+
+        <div class="section-header" style="margin-top: 20px;">
+          <div class="section-title">Saved Locations</div>
+        </div>
+        <div class="saved-locations">
+          <div class="location-grid">
+            <div class="location-card add-location">
+              <div class="add-icon"><i class="fas fa-plus"></i></div>
+              <div class="add-text">Add Location</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-header" style="margin-top: 30px;">
+          <div class="section-title">Weather News</div>
+        </div>
+        <div class="news-list">
+          <div class="news-item">
+            <div class="news-icon"><i class="fas fa-exclamation-triangle"></i></div>
+            <div class="news-content">
+              <div class="news-title">Heavy Rain Warning</div>
+              <div class="news-desc">Heavy rain expected in Kathmandu over the next 48 hours.</div>
+            </div>
+            <div class="news-time">2h ago</div>
+          </div>
+          <div class="news-item">
+            <div class="news-icon"><i class="fas fa-temperature-high"></i></div>
+            <div class="news-content">
+              <div class="news-title">Heat Wave Alert</div>
+              <div class="news-desc">Temperatures rising above normal in New York region.</div>
+            </div>
+            <div class="news-time">5h ago</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Analytics View -->
+    <div class="view-container" id="analytics-view" style="display: none;">
+      <div class="glass-card">
+        <h2>Weather Analytics</h2>
+        <p>Track weather patterns and analyze historical data.</p>
+
+        <div class="analytics-filters">
+          <div class="filter-group">
+            <label>Location</label>
+            <div class="mini-select">
+              <div class="mini-trigger">Select City</div>
+              <div class="mini-menu">
+                <div class="mini-option" id="analytics-city-options"></div>
+              </div>
+            </div>
+          </div>
+          <div class="filter-group">
+            <label>Time Period</label>
+            <div class="mini-select">
+              <div class="mini-trigger">Last 7 days</div>
+              <div class="mini-menu">
+                <div class="mini-option" data-value="7">Last 7 days</div>
+                <div class="mini-option" data-value="30">Last 15 days</div>
+                <div class="mini-option" data-value="90">Last 30 days</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="analytics-chart">
+          <canvas id="analytics-chart"></canvas>
+        </div>
+
+        <div class="analytics-stats">
+          <div class="stat-card">
+            <div class="stat-title">Average</div>
+            <div class="stat-value">22°C</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-title">Min</div>
+            <div class="stat-value">18°C</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-title">Max</div>
+            <div class="stat-value">28°C</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-title">Variance</div>
+            <div class="stat-value">±3.2°C</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings View -->
+    <div class="view-container" id="settings-view" style="display: none;">
+      <div class="glass-card">
+        <h2>Settings</h2>
+        <p>Customize your weather dashboard experience.</p>
+
+        <div class="settings-section">
+          <h3>General Settings</h3>
+
+          <div class="setting-item">
+            <div class="setting-label">Temperature Unit</div>
+            <div class="setting-control">
+              <div class="mini-select">
+                <div class="mini-trigger">Celsius (°C)</div>
+                <div class="mini-menu">
+                  <div class="mini-option" data-value="c">Celsius (°C)</div>
+                  <div class="mini-option" data-value="f">Fahrenheit (°F)</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-label">Time Format</div>
+            <div class="setting-control">
+              <div class="mini-select">
+                <div class="mini-trigger">24-hour</div>
+                <div class="mini-menu">
+                  <div class="mini-option" data-value="f">24-hour</div>
+                  <div class="mini-option" data-value="f">12-hour</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-label">Default Location</div>
+            <div class="setting-control">
+              <input type="text" class="setting-input" value="Spain">
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <h3>Notifications</h3>
+
+          <div class="setting-item">
+            <div class="setting-label">Weather Alerts</div>
+            <div class="setting-control">
+              <label class="toggle">
+                <input type="checkbox" checked>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-label">Daily Forecast</div>
+            <div class="setting-control">
+              <label class="toggle">
+                <input type="checkbox" checked>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-label">Severe Weather</div>
+            <div class="setting-control">
+              <label class="toggle">
+                <input type="checkbox" checked>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+          <div class="settings-actions">
+            <button class="settings-btn save-btn">Save Changes</button>
+            <button class="settings-btn reset-btn">Reset to Default</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="loading-container" id="loading-container">
+        <div class="loading"></div>
+      </div>
+    </div>
+
+    <!-- Chart.js for temperature graph -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Leaflet.js for map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script src="js/config.js"></script>
+
+<script src="js/api.js"></script>
+
+<script src="js/ui.js"></script>
+
+<script src="js/main.js"></script>
+
+    <div id="toast-container"></div>
+
+</body>
+
+</html>

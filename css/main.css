@@ -1,0 +1,4 @@
+@import url('layout.css');      /* Este ya trae el reset y el body */
+@import url('components.css');
+@import url('animations.css');
+@import url('responsive.css');
