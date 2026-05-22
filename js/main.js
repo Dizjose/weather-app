@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const viewContainers = document.querySelectorAll('.view-container');
     const searchBar = document.querySelector('.search-bar');
 
-    // Click en "Add Location"
+    // Click on "Add Location"
     addLocationCard.addEventListener('click', async () => {
         const city = prompt("Enter city name:");
         if (!city) return;
@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // Event listeners buscadores
+    // Event listeners Finders
     citySearch.addEventListener("input", () => {
         const value = citySearch.value.trim().toLowerCase();
         const view = getActiveView();
@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // Click inicial en cards estáticas si existieran
+    // Initial click on static cards, if any exist
     document.querySelectorAll('.location-card:not(.add-location)').forEach(card => {
         card.addEventListener('click', () => {
             const cityName = card.querySelector('.location-name').textContent;
@@ -156,7 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
         };
     });
 
-    // Global click para cerrar menús
+    // Global click to close menus
     window.addEventListener('click', () => {
         document.querySelectorAll('.mini-select').forEach(s => s.classList.remove('open'));
     });
